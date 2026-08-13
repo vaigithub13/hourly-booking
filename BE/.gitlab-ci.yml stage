@@ -1,0 +1,59 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  APP_NAME: staging-on-demand
+  APP_ENV: staging-on-demand-env
+  APP_REGION: ap-southeast-1
+  IMAGE_URI: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  RESOURCE_GROUP: staging
+  GITLAB_ENV: staging
+  ENV_URL: http://staging-on-demand-env.eba-pan7gmkb.me-south-1.elasticbeanstalk.com/
+
+build:
+  image: docker
+  services:
+    - docker:dind
+
+  stage: build
+
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.datalineserver.com
+
+  script:
+    - docker build --pull -t $IMAGE_URI .
+    - docker push $IMAGE_URI
+
+  only:
+    - main
+
+deploy:
+  image: registry.datalineserver.com/aroub/helper-images/aws-sdk:latest
+
+  stage: deploy
+
+  before_script:
+    # Prepare deployment
+    - mkdir ~/.aws/
+    - touch ~/.aws/credentials
+    - printf "[eb-cli]\naws_access_key_id = %s\naws_secret_access_key = %s\n" "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+    - touch ~/.aws/config
+    - printf "[profile eb-cli]\nregion=$APP_REGION\noutput=json" >> ~/.aws/config
+
+  script:
+    - eb init $APP_NAME -p node.js -r $APP_REGION
+    - eb use $APP_ENV -r $APP_REGION
+    - eb deploy $APP_ENV -l $APP_ENV-$CI_COMMIT_SHA
+
+  after_script:
+    - rm -rf ~/.aws
+
+  resource_group: $RESOURCE_GROUP
+
+  environment:
+    name: $GITLAB_ENV
+    url: $ENV_URL
+
+  only:
+    - main

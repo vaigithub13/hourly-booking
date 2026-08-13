@@ -1,0 +1,8 @@
+.custom-quill .ql-container {
+  min-height: 300px; /* Set the minimum height of the editor box */
+  height: 300px; /* Set a fixed height for the editor box */
+}
+
+.error-border .ql-container {
+  border: 1px solid red;
+}
