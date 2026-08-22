@@ -1,5 +1,7 @@
 # Local Dev Setup
 
+For a **free public API + admin** you can share with Flutter, follow [DEPLOY.md](./DEPLOY.md) and send [SHARE.md](./SHARE.md).
+
 ## What you have
 - `BE/` — Fastify + TypeScript + Sequelize (PostgreSQL) API, forked from your reference project,
   with three new modules added: `hotel`, `room` (RoomType + Room), `booking` (the hourly-slot engine).

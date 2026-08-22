@@ -1,6 +1,7 @@
 import { Type } from "@sinclair/typebox";
 
 export const checkAvailability = {
+	tags: ["Bookings"],
 	querystring: Type.Object({
 		roomTypeId: Type.Integer(),
 		checkIn: Type.String({ format: "date-time" }),
@@ -9,6 +10,7 @@ export const checkAvailability = {
 };
 
 export const createBooking = {
+	tags: ["Bookings"],
 	body: Type.Object({
 		roomTypeId: Type.Integer(),
 		checkIn: Type.String({ format: "date-time" }),
@@ -19,6 +21,7 @@ export const createBooking = {
 };
 
 export const cancelBooking = {
+	tags: ["Bookings"],
 	params: Type.Object({ bookingId: Type.Integer() }),
 	body: Type.Object({ reason: Type.Optional(Type.String()) }),
 };

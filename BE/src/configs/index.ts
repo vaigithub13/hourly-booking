@@ -3,80 +3,81 @@ import envSchema from "env-schema";
 
 const getConfigs = async () => {
 	const env = envSchema({
-		dotenv: process.env.NODE_ENV === "development" ? true : false,
+		dotenv: true,
 		schema: Type.Object({
 			//* General
-			NODE_ENV: Type.String(),
-			DEBUG: Type.String({ default: false }),
-			API_HOST: Type.String(),
+			NODE_ENV: Type.String({ default: "production" }),
+			DEBUG: Type.String({ default: "false" }),
+			API_HOST: Type.String({ default: "http://localhost:8080" }),
 			FE_HOST: Type.String({ default: "" }),
-			API_PORT: Type.String({ default: 8080 }),
-			ENABLE_SEED: Type.String(),
+			API_PORT: Type.String({ default: "8080" }),
+			ENABLE_SEED: Type.String({ default: "true" }),
+			ENABLE_DEMO_SEED: Type.String({ default: "true" }),
+			ENABLE_SWAGGER: Type.String({ default: "true" }),
+			ENABLE_OTP_BYPASS: Type.String({ default: "true" }),
 
 			//* Admin
 			ADMIN_EMAIL: Type.String(),
 			ADMIN_PASSWORD: Type.String(),
 			ENCRYPTION_KEY: Type.String({ minLength: 32, maxLength: 32 }),
 
-			//* AWS
-			AWS_S3_KEY: Type.String(),
-			AWS_S3_SECRET: Type.String(),
-			AWS_S3_BUCKET: Type.String(),
-			AWS_S3_BASE_URL: Type.String(),
-			LAMBDA_IMAGE_COMPRESSION_PERCENTAGE: Type.Number(),
-			LAMBDA_IMAGE_COMPRESSION_FUNCTION_NAME: Type.String(),
+			//* AWS (optional on free demo deploys)
+			AWS_S3_KEY: Type.String({ default: "" }),
+			AWS_S3_SECRET: Type.String({ default: "" }),
+			AWS_S3_BUCKET: Type.String({ default: "" }),
+			AWS_S3_BASE_URL: Type.String({ default: "" }),
+			LAMBDA_IMAGE_COMPRESSION_PERCENTAGE: Type.Number({ default: 50 }),
+			LAMBDA_IMAGE_COMPRESSION_FUNCTION_NAME: Type.String({ default: "" }),
 
-			//* DB creds
-			DB_HOST: Type.String(),
-			DB_PORT: Type.String(),
-			DB_NAME: Type.String(),
-			DB_USERNAME: Type.String(),
-			DB_PASSWORD: Type.String(),
+			//* DB — use DATABASE_URL (Neon/Render) OR the split fields
+			DATABASE_URL: Type.String({ default: "" }),
+			DB_HOST: Type.String({ default: "localhost" }),
+			DB_PORT: Type.String({ default: "5432" }),
+			DB_NAME: Type.String({ default: "hotel_booking" }),
+			DB_USERNAME: Type.String({ default: "postgres" }),
+			DB_PASSWORD: Type.String({ default: "postgres" }),
 
 			//* JWT
-			JWT_EXPIRE: Type.String(),
-			REFRESH_TOKEN_EXPIRE: Type.String(),
+			JWT_EXPIRE: Type.String({ default: "7d" }),
+			REFRESH_TOKEN_EXPIRE: Type.String({ default: "30d" }),
 			JWT_SECRET: Type.String(),
 
 			//* OneSignal
-			ONESIGNAL_APP_ID: Type.String(),
-			ONESIGNAL_APP_REST_API_KEY: Type.String(),
+			ONESIGNAL_APP_ID: Type.String({ default: "" }),
+			ONESIGNAL_APP_REST_API_KEY: Type.String({ default: "" }),
 
 			//* Twilio
-			TWILIO_SID: Type.String(),
-			TWILIO_AUTH: Type.String(),
+			TWILIO_SID: Type.String({ default: "" }),
+			TWILIO_AUTH: Type.String({ default: "" }),
 
 			//* Payment
-			PAYMENT_SECRET_KEY: Type.String(),
-			PAYMENT_FIXED_FEE: Type.Number(),
-			PAYMENT_PERCENT_FEE: Type.Number(),
+			PAYMENT_SECRET_KEY: Type.String({ default: "" }),
+			PAYMENT_FIXED_FEE: Type.Number({ default: 0 }),
+			PAYMENT_PERCENT_FEE: Type.Number({ default: 0 }),
 
 			//* Sendbird
-			SENDBIRD_APP_ID: Type.String(),
-			SENDBIRD_API_TOKEN: Type.String(),
-			OTP_WAIT_PER_MINUTES: Type.Number(),
+			SENDBIRD_APP_ID: Type.String({ default: "" }),
+			SENDBIRD_API_TOKEN: Type.String({ default: "" }),
+			OTP_WAIT_PER_MINUTES: Type.Number({ default: 1 }),
 
 			//* Sendgrid
-			SENDGRID_API_KEY: Type.String(),
-			SENDGRID_SENDER: Type.String(),
-			SENDGRID_ORDER_DETAIL_TEMPLATE_ID: Type.String(),
+			SENDGRID_API_KEY: Type.String({ default: "" }),
+			SENDGRID_SENDER: Type.String({ default: "noreply@example.com" }),
+			SENDGRID_ORDER_DETAIL_TEMPLATE_ID: Type.String({ default: "" }),
 
 			//* SMSala
-			SMSALA_API_KEY: Type.String(),
-			SMSALA_SOURCE_ADDRESS: Type.String(),
+			SMSALA_API_KEY: Type.String({ default: "" }),
+			SMSALA_SOURCE_ADDRESS: Type.String({ default: "" }),
 
 			//* Google maps
-			GOOGLE_MAPS_API_KEY: Type.String(),
+			GOOGLE_MAPS_API_KEY: Type.String({ default: "" }),
 
 			//* SkipCash
-			SKIPCASH_SECRET_KEY: Type.String(),
-			SKIPCASH_KEY_ID: Type.String(),
-			SKIPCASH_CLIENT_ID: Type.String(),
-			SKIPCASH_WEBHOOK_KEY: Type.String(),
-			SKIPCASH_BASE_URL: Type.String(),
-
-			// Pass delivery key
-			// PASS_DELIVERY_KEY: Type.String(),
+			SKIPCASH_SECRET_KEY: Type.String({ default: "" }),
+			SKIPCASH_KEY_ID: Type.String({ default: "" }),
+			SKIPCASH_CLIENT_ID: Type.String({ default: "" }),
+			SKIPCASH_WEBHOOK_KEY: Type.String({ default: "" }),
+			SKIPCASH_BASE_URL: Type.String({ default: "" }),
 		}),
 	});
 
@@ -84,6 +85,7 @@ const getConfigs = async () => {
 	const isDebug = /^\s*true\s*$/i.test(`${env["DEBUG"]}`);
 	const isTest = /^\s*test\s*$/i.test(`${env["NODE_ENV"]}`);
 	const prettyPrint = /^\s*development\s*$/i.test(`${env["NODE_ENV"]}`);
+	const exposeSwagger = !isProduction || /^\s*true\s*$/i.test(`${env["ENABLE_SWAGGER"]}`);
 
 	return {
 		instance: {
@@ -95,6 +97,7 @@ const getConfigs = async () => {
 			isProduction,
 			isTest,
 			env: env.NODE_ENV,
+			exposeSwagger,
 		},
 		admin: {
 			email: `${env["ADMIN_EMAIL"]}`,
@@ -107,6 +110,7 @@ const getConfigs = async () => {
 			secret: `${env["AWS_S3_SECRET"]}`,
 		},
 		db: {
+			url: `${env["DATABASE_URL"]}`,
 			host: `${env["DB_HOST"]}`,
 			port: +`${env["DB_PORT"]}`,
 			name: `${env["DB_NAME"]}`,
@@ -115,6 +119,7 @@ const getConfigs = async () => {
 			password: `${env["DB_PASSWORD"]}`,
 			username: `${env["DB_USERNAME"]}`,
 			seed: /^\s*true\s*$/i.test(`${env["ENABLE_SEED"]}`),
+			demoSeed: /^\s*true\s*$/i.test(`${env["ENABLE_DEMO_SEED"]}`),
 		},
 		jwt: {
 			expire: `${env["JWT_EXPIRE"]}`,
@@ -197,8 +202,8 @@ const getConfigs = async () => {
 					},
 				},
 			},
-			hideUntagged: true,
-			exposeRoute: !isProduction,
+			hideUntagged: false,
+			exposeRoute: exposeSwagger,
 		},
 		delivery: {
 			key: `eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxMSIsImp0aSI6IjA4ZWM5OWM0Mjk0YTNmZWJlYTEwMDdlMTI4ZmNjYzJmZWI4ZDBmMDYyNDQxODUwNGFhYjkzOGViYTE3NDEzMmQ2ZDYyZDU5YTVkMGE4ZDMzIiwiaWF0IjoxNzUyNzU0NDI2LjQ4MzA5NSwibmJmIjoxNzUyNzU0NDI2LjQ4MzA5OCwiZXhwIjoxNzg0MjkwNDI2LjQ3ODk3Nywic3ViIjoiMTA4ODAiLCJzY29wZXMiOltdfQ.kCxkRD6oBdhduRNpFDqFx2hFHNw_L7WRLy6QNeZ2q5K4prp8uzkB3L00fjGwzDmFjnWNrJp5KoF4h2ODnHFaVNsuqJXT3ggfUeEl3IuakWrD9-GI10A2z6QTXea49kCzqalMKtPMYNQEVTkiZKRehnjVdV9N3Jq7W0ArmZOIu-I6ZzXVhS6RfrP394F-nNQkAWCIfr95-P97XEgVyMu6ZqOJuQ3WDWphM6D5_qiy71dzhWe1faaQZkEuE4lRMOaSXeQQ_v-JZ5b7Sod2Xuy4siWYELu_kXv0b3w8SpqhVLTUfo7dwVV6Zg5gzmTmRcsttvwJe91gqCOC9JukfVqboRiRbOtXvZ0p3uyxJUURYEchR4qcElN1oOeZJFX5RRk89Q30EO0kpbE_ZAKNVnfRH4EAevbz3Z7gfUMn86e9NHXEACyMh87C5aggtwdk8bQXM9Z4Xmp6GFK3eaUxFQ9Jhq6jRMNoh1hK0het95VjDwQzSu9K9A15oXE_07GNhX4sUx8_8a407giW2OpyH2AJhyAfyD8HxXTM4xncQGa3KH0ZV1UEzBJVZfg6X7uYZPD3ZJUm5lXsWy-Ilj6ESg07M3wuHJIDmo7sWENlXTvVHquxaYm91rUfYEnYL3_d3v2zDPvMP7EQF7Pd1oilSO8bBRHTVhrKhQ038Ow_7Slu_RE`,

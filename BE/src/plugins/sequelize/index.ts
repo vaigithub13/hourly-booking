@@ -37,72 +37,79 @@ const sequelizePlugin = async (instance: FastifyInstance) => {
 	(Sequelize as any).DataTypes.postgres.DECIMAL.parse = parseFloat;
 	const env = instance.configs.instance.env;
 	const isDev = env === "development";
+	const databaseUrl = instance.configs.db.url;
 
 	console.log("========== env:", env);
 	console.log("========== isDev:", isDev);
 
-	const dialectOptions = isDev
-		? {} // local / dev: no SSL
-		: {
-			ssl: {
-				require: true,
-				rejectUnauthorized: false,
-			},
-		};
-	const sequelize = new Sequelize({
-		dialect: "postgres",
-		database: !instance.configs.instance.isTest ? instance.configs.db.name : instance.configs.db.testName,
-		username: instance.configs.db.username,
-		password: instance.configs.db.password,
-		host: instance.configs.db.host || "localhost",
-		port: !instance.configs.instance.isTest ? undefined : instance.configs.db.testPort,
-		logging: (msg) => instance.log.debug(msg),
-		// logging: console.log,
-		dialectOptions,
-		pool: {
-			min: 0,
-			max: 20,
-			acquire: 60000,
-			idle: 10000,
-		},
-		models: [
-			Hotel,
-			RoomType,
-			Room,
-			Booking,
-			Admin,
-			User,
-			Banner,
-			Category,
-			Configuration,
-			Product,
-			Location,
-			SKU,
-			Cart,
-			CartItem,
-			Wallet,
-			CustomAttributes,
-			SKUCustomAttributes,
-			Order,
-			OrderItem,
-			Accounting,
-			CancelOrderRequest,
-			ProductCategory,
-			ReturnOrder,
-			ReturnOrderItems,
-			UserAddress,
-			ProductLength,
-			SizeGuide,
-			OrderTracking,
-			Notifications,
-			Payments,
-			FAQ,
-			TransactionModel,
-			Tips,
-			ProductSupportedAttributes,
-			Log
-		],
-	});
+	const dialectOptions =
+		databaseUrl || (instance.configs.db.host !== "localhost" && instance.configs.db.host !== "127.0.0.1")
+			? {
+					ssl: {
+						require: true,
+						rejectUnauthorized: false,
+					},
+			  }
+			: {};
+
+	const models = [
+		Hotel,
+		RoomType,
+		Room,
+		Booking,
+		Admin,
+		User,
+		Banner,
+		Category,
+		Configuration,
+		Product,
+		Location,
+		SKU,
+		Cart,
+		CartItem,
+		Wallet,
+		CustomAttributes,
+		SKUCustomAttributes,
+		Order,
+		OrderItem,
+		Accounting,
+		CancelOrderRequest,
+		ProductCategory,
+		ReturnOrder,
+		ReturnOrderItems,
+		UserAddress,
+		ProductLength,
+		SizeGuide,
+		OrderTracking,
+		Notifications,
+		Payments,
+		FAQ,
+		TransactionModel,
+		Tips,
+		ProductSupportedAttributes,
+		Log,
+	];
+
+	const sequelize = databaseUrl
+		? new Sequelize(databaseUrl, {
+				dialect: "postgres",
+				logging: (msg) => instance.log.debug(msg),
+				dialectOptions,
+				pool: { min: 0, max: 10, acquire: 60000, idle: 10000 },
+				models,
+		  })
+		: new Sequelize({
+				dialect: "postgres",
+				database: !instance.configs.instance.isTest ? instance.configs.db.name : instance.configs.db.testName,
+				username: instance.configs.db.username,
+				password: instance.configs.db.password,
+				host: instance.configs.db.host || "localhost",
+				port: instance.configs.instance.isTest ? instance.configs.db.testPort : instance.configs.db.port,
+				logging: (msg) => instance.log.debug(msg),
+				dialectOptions,
+				pool: { min: 0, max: 10, acquire: 60000, idle: 10000 },
+				models,
+		  });
 
 	instance.decorate("db", sequelize);
 	instance.addHook("onClose", async () => sequelize.close());

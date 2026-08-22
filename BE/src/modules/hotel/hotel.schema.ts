@@ -14,10 +14,11 @@ const hotelBody = Type.Object({
 	minBookingHours: Type.Optional(Type.Integer({ minimum: 1 })),
 });
 
-export const createHotel = { body: hotelBody };
-export const updateHotel = { params: Type.Object({ hotelId: Type.Integer() }), body: Type.Partial(hotelBody) };
-export const getHotel = { params: Type.Object({ hotelId: Type.Integer() }) };
+export const createHotel = { tags: ["Hotels"], body: hotelBody };
+export const updateHotel = { tags: ["Hotels"], params: Type.Object({ hotelId: Type.Integer() }), body: Type.Partial(hotelBody) };
+export const getHotel = { tags: ["Hotels"], params: Type.Object({ hotelId: Type.Integer() }) };
 export const listHotels = {
+	tags: ["Hotels"],
 	querystring: Type.Object({
 		limit: Type.Optional(Type.Integer()),
 		offset: Type.Optional(Type.Integer()),

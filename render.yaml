@@ -1,0 +1,53 @@
+# Blueprint for Render.com (free web + static).
+# Create the Neon Postgres DB first, then paste DATABASE_URL in the dashboard.
+# https://dashboard.render.com/select-repo?type=blueprint
+
+services:
+  - type: web
+    name: hourly-booking-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./BE/Dockerfile
+    dockerContext: ./BE
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENABLE_SEED
+        value: "true"
+      - key: ENABLE_DEMO_SEED
+        value: "true"
+      - key: ENABLE_SWAGGER
+        value: "true"
+      - key: ENABLE_OTP_BYPASS
+        value: "true"
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: REFRESH_TOKEN_EXPIRE
+        value: 30d
+      - key: OTP_WAIT_PER_MINUTES
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
+      - key: API_HOST
+        sync: false
+      - key: FE_HOST
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+
+  - type: web
+    name: hourly-booking-admin
+    runtime: static
+    plan: free
+    buildCommand: cd ADMIN && yarn install && CI=false yarn build
+    staticPublishPath: ADMIN/build
+    envVars:
+      - key: REACT_APP_BASE_URL
+        sync: false

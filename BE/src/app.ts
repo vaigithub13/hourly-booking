@@ -12,6 +12,7 @@ import fastifySwagger from "@fastify/swagger";
 import { User } from "./modules/user/user.model";
 import { Admin } from "./modules/admin/admin.model";
 import { seedAdmin } from "./utils/admin-seeding";
+import { seedDemoBookingData } from "./utils/demo-seeding";
 import { setFastifyInstance } from "./fastifyInstance";
 import { notificationDto } from "./modules/notification/dto";
 import { IDynamicTemplateConfirmOrderEmailData, ISendVendorOrderNotificationEmail } from "./plugins/sendGrid/templates/interfaces";
@@ -135,7 +136,7 @@ const getApp = async () => {
 	});
 	app.register(import("@fastify/sensible"));
 
-	if (!configs.instance.isProduction) {
+	if (configs.instance.exposeSwagger) {
 		app.register(fastifySwagger, app.configs.swagger);
 		app.register(helmet, (instance) => ({
 			contentSecurityPolicy: {
@@ -186,6 +187,8 @@ const getApp = async () => {
 
 			await seedAdmin(configs);
 			app.log.info("Admin seeding completed");
+			await seedDemoBookingData(configs);
+			app.log.info("Demo hotel seeding completed");
 
 			app.log.info("Syncing db tables done");
 		} catch (error) {
@@ -193,7 +196,7 @@ const getApp = async () => {
 			// Don't throw here to allow app to continue
 		}
 
-		if (!configs.instance.isProduction) {
+		if (configs.instance.exposeSwagger) {
 			app.swagger();
 		}
 	});

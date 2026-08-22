@@ -16,10 +16,18 @@ const roomTypeBody = Type.Object({
 export default async (fastify: FastifyInstance) => {
 	const instance = fastify.withTypeProvider<TypeBoxTypeProvider>();
 
-	// GET /rooms/types?hotelId=1
-	instance.get("/types", async (request: any) => {
-		return RoomType.findAll({ where: { hotelId: request.query.hotelId, isActive: true }, include: [Room] });
-	});
+	instance.get(
+		"/types",
+		{
+			schema: {
+				tags: ["Rooms"],
+				querystring: Type.Object({ hotelId: Type.Integer() }),
+			},
+		},
+		async (request: any) => {
+			return RoomType.findAll({ where: { hotelId: request.query.hotelId, isActive: true }, include: [Room] });
+		}
+	);
 
 	// Vendor: add a room type to their hotel
 	instance.post(

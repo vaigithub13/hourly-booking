@@ -43,7 +43,10 @@ export default async (fastify: FastifyInstance) => {
 	// GET /bookings/mine
 	instance.get(
 		"/mine",
-		{ preValidation: instance.auth([instance.authenticate], { relation: "and" }) },
+		{
+			preValidation: instance.auth([instance.authenticate], { relation: "and" }),
+			schema: { tags: ["Bookings"] },
+		},
 		async (request) => {
 			const userId = (request.user as any).id;
 			return bookingService.getUserBookings(userId);
