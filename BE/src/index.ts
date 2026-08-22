@@ -4,7 +4,7 @@ import { registerJobs } from "./jobs";
 import { runOnAppInit } from "./utils/on-app-init";
 import crypto from "crypto";
 const scrypt = promisify(crypto.scrypt);
-process.env.TZ = "Asia/Qatar";
+process.env.TZ = "Asia/Kolkata";
 
 const main = async () => {
 	const salt = crypto.randomBytes(8).toString("hex");

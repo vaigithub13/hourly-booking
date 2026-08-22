@@ -98,18 +98,11 @@ const VendorInfo = ({
             {/* Vendor Details */}
             <Grid item xs={12} sm={9} sx={{ textAlign: 'center' }}>
               <Grid container spacing={2}>
-                {/* Vendor Name (English and Arabic) */}
                 <Grid item xs={12} sm={6}>
                   <Typography variant="subtitle1" fontWeight="bold">
-                    Designer Name (English):
+                    Host / business name:
                   </Typography>
                   <Typography>{vendorName?.en || 'N/A'}</Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="subtitle1" fontWeight="bold">
-                    اسم المصمم/ة (عربي)
-                  </Typography>
-                  <Typography>{vendorName?.ar || 'N/A '}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Divider sx={{ my: 1 }} />
@@ -154,18 +147,11 @@ const VendorInfo = ({
           <Divider sx={{ my: 2 }} />
 
           <Grid container spacing={2}>
-            {/* Brand Name */}
             <Grid item xs={12} sm={6}>
               <Typography variant="subtitle1" fontWeight="bold">
-                Brand Name (English):
+                Brand name:
               </Typography>
               <Typography>{ownerName?.en || 'N/A'}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="subtitle1" fontWeight="bold">
-                :اسم العلامة التجارية (عربي)
-              </Typography>
-              <Typography>{ownerName?.ar || 'N/A'}</Typography>
             </Grid>
 
             {/* Business Contact */}
@@ -179,7 +165,11 @@ const VendorInfo = ({
               <Typography variant="subtitle1" fontWeight="bold">
                 Business Phone:
               </Typography>
-              <Typography>+974 {phoneNumber || 'N/A'}</Typography>
+              <Typography>
+                {String(phoneNumber || '').startsWith('+')
+                  ? phoneNumber
+                  : `+91 ${phoneNumber || 'N/A'}`}
+              </Typography>
             </Grid>
           </Grid>
         </Card>

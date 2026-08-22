@@ -137,7 +137,7 @@ export default function TransactionDialog({
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <div style={{ paddingRight: 8, fontWeight: "bold" }}>QAR</div>
+                    <div style={{ paddingRight: 8, fontWeight: "bold" }}>INR</div>
                   </InputAdornment>
                 )
               }}

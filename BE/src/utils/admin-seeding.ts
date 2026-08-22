@@ -22,7 +22,7 @@ export const seedAdmin = async (
       name: "Admin",
       email: configs.admin.email,
       password,
-      phoneNumber: "+97411111111",
+      phoneNumber: "+911111111111",
       role: AdminRole.admin,
       preferredLang: constants.ADMIN_MAIN_LANG,
     });

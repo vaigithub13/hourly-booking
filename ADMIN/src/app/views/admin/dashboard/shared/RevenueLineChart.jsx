@@ -61,7 +61,7 @@ const RevenueLineChart = () => {
     tooltip: {
       trigger: 'axis',
       formatter: ({ 0: point }) => {
-        return `${point.axisValue}<br/>Revenue: ${point.data} QAR`
+        return `${point.axisValue}<br/>Revenue: ${point.data} INR`
       },
     },
     xAxis: {
@@ -72,7 +72,7 @@ const RevenueLineChart = () => {
     yAxis: {
       type: 'value',
       axisLabel: {
-        formatter: '{value} QAR',
+        formatter: '{value} INR',
       },
     },
     series: [

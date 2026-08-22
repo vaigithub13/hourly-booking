@@ -125,7 +125,7 @@ export default function DeliveryNewEditForm({ currentSetting }) {
                   startAdornment: (
                     <InputAdornment position="start">
                       <div style={{ paddingRight: 8, fontWeight: 'bold' }}>
-                        QAR
+                        INR
                       </div>
                     </InputAdornment>
                   ),
@@ -141,7 +141,7 @@ export default function DeliveryNewEditForm({ currentSetting }) {
                   startAdornment: (
                     <InputAdornment position="start">
                       <div style={{ paddingRight: 8, fontWeight: 'bold' }}>
-                        QAR
+                        INR
                       </div>
                     </InputAdornment>
                   ),
@@ -158,7 +158,7 @@ export default function DeliveryNewEditForm({ currentSetting }) {
                   startAdornment: (
                     <InputAdornment position="start">
                       <div style={{ paddingRight: 8, fontWeight: 'bold' }}>
-                        QAR
+                        INR
                       </div>
                     </InputAdornment>
                   ),

@@ -151,7 +151,7 @@ export default function Profile() {
 
     {
       field: 'total',
-      headerName: 'Total (QAR)',
+      headerName: 'Total (INR)',
       flex: 0.1,
       minWidth: 100,
       sortable: false,

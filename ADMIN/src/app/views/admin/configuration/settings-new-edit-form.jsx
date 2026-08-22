@@ -176,7 +176,7 @@ export default function SettingsNewEditForm({ currentSetting }) {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <div style={{ paddingRight: 8, fontWeight: "bold" }}>+974</div>
+                      <div style={{ paddingRight: 8, fontWeight: "bold" }}>+91</div>
                     </InputAdornment>
                   )
                 }}
@@ -193,7 +193,7 @@ export default function SettingsNewEditForm({ currentSetting }) {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <div style={{ paddingRight: 8, fontWeight: "bold" }}>QAR</div>
+                      <div style={{ paddingRight: 8, fontWeight: "bold" }}>INR</div>
                     </InputAdornment>
                   )
                 }}
@@ -207,7 +207,7 @@ export default function SettingsNewEditForm({ currentSetting }) {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <div style={{ paddingRight: 8, fontWeight: "bold" }}>QAR</div>
+                      <div style={{ paddingRight: 8, fontWeight: "bold" }}>INR</div>
                     </InputAdornment>
                   )
                 }}

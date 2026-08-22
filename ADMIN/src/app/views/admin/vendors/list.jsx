@@ -212,7 +212,7 @@ export default function Vendors() {
       disableColumnMenu: true,
       renderCell: ({ row }) => (
         <Stack direction="row" alignItems="center" sx={{ py: 2, width: 1 }}>
-          <Typography variant="subtitle2">+974{row?.phoneNumber}</Typography>
+          <Typography variant="subtitle2">{row?.phoneNumber}</Typography>
         </Stack>
       ),
     },

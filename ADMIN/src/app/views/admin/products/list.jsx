@@ -291,7 +291,7 @@ export default function Products() {
 
     {
       field: 'price',
-      headerName: 'Price (QAR)',
+      headerName: 'Price (INR)',
       flex: 0.1,
       minWidth: 50,
       sortable: false,

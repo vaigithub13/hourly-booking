@@ -30,14 +30,14 @@ Content-Type: application/json
 x-lang: en
 ```
 
-Phone numbers must match `+974` + 8 digits (example: `+97450000000`).
+Phone numbers must match `+91` + 10 digits (example: `+919876543210`).
 
 ### Demo guest (already seeded)
 
 1. `POST /v1/users/confirm-otp`
 
 ```json
-{ "emailOrPhoneNumber": "+97450000000", "otpCode": "3489" }
+{ "emailOrPhoneNumber": "+919876543210", "otpCode": "3489" }
 ```
 
 2. Save `accessToken` and `refreshToken` from the response.
@@ -52,7 +52,7 @@ Phone numbers must match `+974` + 8 digits (example: `+97450000000`).
 {
   "firstName": "Ali",
   "lastName": "Guest",
-  "phoneNumber": "+97451111111"
+  "phoneNumber": "+919811111111"
 }
 ```
 
@@ -90,7 +90,7 @@ Hotel list lives at `data.rows`. Demo hotel id is **1**. Room types: Deluxe King
   "checkIn": "2026-08-23T14:00:00.000Z",
   "checkOut": "2026-08-23T17:00:00.000Z",
   "guestCount": 2,
-  "guestPhone": "+97450000000"
+  "guestPhone": "+919876543210"
 }
 ```
 
@@ -106,10 +106,10 @@ ISO datetimes required (`2026-08-23T14:00:00.000Z`). Overlap is per physical roo
 
 | Entity | Value |
 |---|---|
-| Hotel | Hourly Stay Doha (city `Doha`, approved) |
+| Hotel | Hourly Stay Mumbai (city `Mumbai`, approved) — existing live DBs may still show the earlier Doha demo hotel |
 | Room types | Deluxe King (`150` + `35`/extra hour), Standard Twin (`110` + `25`) |
 | Rooms | 101, 102, 201, 202 |
-| Demo user | `+97450000000` / OTP `3489` |
+| Demo user | `+919876543210` / OTP `3489` |
 | Admin panel login | the `ADMIN_EMAIL` / `ADMIN_PASSWORD` from deploy (not for the mobile app) |
 
 ---

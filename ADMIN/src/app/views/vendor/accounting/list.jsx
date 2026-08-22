@@ -97,7 +97,7 @@ export default function Accounting() {
     },
     {
       field: 'revenue',
-      headerName: 'Revenue (QAR)',
+      headerName: 'Revenue (INR)',
       flex: 0.1,
       minWidth: 100,
       sortable: false,
@@ -126,7 +126,7 @@ export default function Accounting() {
     },
     {
       field: 'amount',
-      headerName: 'Earnings (QAR)',
+      headerName: 'Earnings (INR)',
       flex: 0.1,
       minWidth: 100,
       sortable: false,
@@ -311,7 +311,7 @@ export default function Accounting() {
                       {item.label}
                     </Typography>
                     <Typography variant="h6" fontWeight="bold">
-                      {item.value ?? '-'} QAR
+                      {item.value ?? '-'} INR
                     </Typography>
                   </>
                 )}

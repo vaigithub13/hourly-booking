@@ -412,7 +412,7 @@ const CreateProduct = ({ currentProduct }) => {
                     type="number"
                     label="Product Price *"
                     InputProps={{
-                      startAdornment: <Box sx={{ paddingRight: 2, fontWeight: "bold" }}>+QAR</Box>
+                      startAdornment: <Box sx={{ paddingRight: 2, fontWeight: "bold" }}>+INR</Box>
                     }}
                     maxLength={6}
                   />
@@ -425,7 +425,7 @@ const CreateProduct = ({ currentProduct }) => {
                     label="Discounted Price"
                     maxLength={6}
                     InputProps={{
-                      startAdornment: <Box sx={{ paddingRight: 2, fontWeight: "bold" }}>+QAR</Box>
+                      startAdornment: <Box sx={{ paddingRight: 2, fontWeight: "bold" }}>+INR</Box>
                     }}
                   />
                 </Grid>

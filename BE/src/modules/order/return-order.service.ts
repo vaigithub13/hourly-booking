@@ -836,7 +836,7 @@ export const ReturnOrderService = (instance: FastifyInstance) => {
 								lat: vendor.address.latitude.toString(),
 								long: vendor.address.longitude.toString(),
 								name: vendor.vendorName.en,
-								phone: "+974" + vendor.phoneNumber,
+								phone: "+91" + vendor.phoneNumber,
 								address: `Zone: ${vendor.address.zone}, Street: ${vendor.address.street} , Building: ${vendor.address.building}, Unit: ${vendor.address.unit}.`,
 							},
 						],

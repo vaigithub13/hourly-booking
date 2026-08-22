@@ -14,36 +14,38 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
   const [autocomplete, setAutocomplete] = useState(null)
   const [geocoder, setGeocoder] = useState(null)
 
-  const dohaBounds = {
-    north: 25.4, // Approximate northern boundary
-    south: 25.1, // Approximate southern boundary
-    east: 51.64, // Approximate eastern boundary
-    west: 51.44, // Approximate western boundary
+  const indiaBounds = {
+    north: 35.7,
+    south: 6.5,
+    east: 97.4,
+    west: 68.0,
   }
 
-  const isWithinDoha = (lat, lng) => {
+  const defaultCenter = { lat: 28.6139, lng: 77.209 }
+
+  const isWithinIndia = (lat, lng) => {
     return (
-      lat >= dohaBounds.south &&
-      lat <= dohaBounds.north &&
-      lng >= dohaBounds.west &&
-      lng <= dohaBounds.east
+      lat >= indiaBounds.south &&
+      lat <= indiaBounds.north &&
+      lng >= indiaBounds.west &&
+      lng <= indiaBounds.east
     )
   }
 
   const getCoordinates = () => {
     if (isLocation) {
       return {
-        lat: Number(values.lat) !== 0 ? Number(values.lat) : 25.276987,
-        lng: Number(values.lng) !== 0 ? Number(values.lng) : 51.520008,
+        lat: Number(values.lat) !== 0 ? Number(values.lat) : defaultCenter.lat,
+        lng: Number(values.lng) !== 0 ? Number(values.lng) : defaultCenter.lng,
       }
     }
     return {
       lat:
-        values?.address?.latitude !== 0 ? values?.address?.latitude : 25.276987,
+        values?.address?.latitude !== 0 ? values?.address?.latitude : defaultCenter.lat,
       lng:
         values?.address?.longitude !== 0
           ? values?.address?.longitude
-          : 51.520008,
+          : defaultCenter.lng,
     }
   }
 
@@ -58,22 +60,6 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
     width: '100%',
   }
 
-  const qatarBounds = {
-    north: 26.154614, // Northernmost point
-    south: 24.470901, // Southernmost point
-    east: 52.638011, // Easternmost point
-    west: 50.750028, // Westernmost point
-  }
-
-  const isWithinQatarBounds = (lat, lng) => {
-    return (
-      lat >= qatarBounds.south &&
-      lat <= qatarBounds.north &&
-      lng >= qatarBounds.west &&
-      lng <= qatarBounds.east
-    )
-  }
-
   // Ensure Google Maps API is loaded
   const onScriptLoad = () => {
     if (window.google && window.google.maps) {
@@ -84,12 +70,12 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
   // Handle place selection from the Autocomplete
   const onPlaceSelected = useCallback(() => {
     if (autocomplete) {
-      // Restrict Autocomplete to Qatar only
-      autocomplete.setComponentRestrictions({ country: 'QA' })
+      // Restrict Autocomplete to India
+      autocomplete.setComponentRestrictions({ country: 'IN' })
       const place = autocomplete.getPlace()
       if (!place || !place.geometry) {
         // If no place is selected or place has no geometry
-        setErrorMessage('The area should be within Qatar')
+        setErrorMessage('Please choose a location in India')
         return
       }
       if (place && place.geometry) {
@@ -98,8 +84,8 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
         const newLng = location.lng()
         const fullAddress = place.formatted_address // Get the full address
         const addressComponents = place?.address_components
-        if (!isWithinQatarBounds(newLat, newLng)) {
-          setErrorMessage('The area should be within Qatar.')
+        if (!isWithinIndia(newLat, newLng)) {
+          setErrorMessage('Please choose a location in India.')
           return
         } else {
           setErrorMessage('')
@@ -133,7 +119,7 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
           setValue('zone', fullAddress)
           setValue('lat', newLat)
           setValue('lng', newLng)
-          setValue('price', isWithinDoha(newLat, newLng) ? 50 : 100)
+          setValue('price', isWithinIndia(newLat, newLng) ? 50 : 100)
         } else {
           setValue('address.zone', zone)
           setValue('address.building', building)
@@ -236,7 +222,7 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
 
       // Request place predictions
       autocompleteService.getPlacePredictions(
-        { input: debouncedValue, componentRestrictions: { country: 'QA' } },
+        { input: debouncedValue, componentRestrictions: { country: 'IN' } },
         (predictions, status) => {
           if (
             status === window.google.maps.places.PlacesServiceStatus.OK &&
@@ -245,7 +231,7 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
             setErrorMessage(null)
           } else {
             // Trigger an error if there are no predictions
-            setErrorMessage('Location should be within Qatar region')
+            setErrorMessage('Location should be within India')
           }
         },
       )
@@ -269,8 +255,8 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
           mapTypeControl: false,
           fullscreenControl: false,
           restriction: {
-            latLngBounds: qatarBounds, // Set the bounding box for Qatar
-            strictBounds: true, // Enforce strict boundaries
+            latLngBounds: indiaBounds,
+            strictBounds: true,
           },
         }}
         onLoad={(mapInstance) => setMap(mapInstance)}
@@ -279,9 +265,8 @@ const GoogleMapComponent = ({ values, setValue, isLocation = false }) => {
         {!isLocation && (
           <Autocomplete
             onLoad={(autocompleteInstance) => {
-              // Set the Autocomplete instance and apply component restrictions for Qatar
               setAutocomplete(autocompleteInstance)
-              autocompleteInstance.setComponentRestrictions({ country: 'QA' })
+              autocompleteInstance.setComponentRestrictions({ country: 'IN' })
             }}
             onPlaceChanged={onPlaceSelected}
           >

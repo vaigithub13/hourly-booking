@@ -169,14 +169,14 @@ const ProductDetail = ({ product, loading }) => {
                             marginRight: 8,
                           }}
                         >
-                          {formatCurrency(product?.price)} QAR
+                          {formatCurrency(product?.price)} INR
                         </span>
                         <span>
-                          {formatCurrency(product?.discountedPrice)} QAR
+                          {formatCurrency(product?.discountedPrice)} INR
                         </span>
                       </>
                     ) : (
-                      <span>{formatCurrency(product?.price)} QAR</span>
+                      <span>{formatCurrency(product?.price)} INR</span>
                     )}
                   </Typography>
 

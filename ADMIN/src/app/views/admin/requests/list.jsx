@@ -253,7 +253,7 @@ export default function Requests() {
 
     {
       field: 'total',
-      headerName: 'Total (QAR)',
+      headerName: 'Total (INR)',
       flex: 0.1,
       minWidth: 50,
       sortable: false,

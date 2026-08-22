@@ -262,7 +262,7 @@ export default function ReturnRequests() {
 
     {
       field: 'total',
-      headerName: 'Total (QAR)',
+      headerName: 'Total (INR)',
       flex: 0.1,
       minWidth: 80,
       sortable: false,

@@ -155,7 +155,7 @@ export default function IssueRefundModel({
                   startAdornment: (
                     <InputAdornment position="start">
                       <div style={{ paddingRight: 8, fontWeight: 'bold' }}>
-                        QAR
+                        INR
                       </div>
                     </InputAdornment>
                   ),

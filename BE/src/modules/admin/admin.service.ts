@@ -223,7 +223,9 @@ const AdminService = (instance: FastifyInstance) => {
 				forgetPasswordOtpMetaData: otp,
 			});
 			let toSendOtpPhoneNumber = user.phoneNumber;
-			if (user.phoneNumber.substring(0, 4) !== "974") toSendOtpPhoneNumber = "974" + user.phoneNumber;
+			if (!user.phoneNumber.replace(/\D/g, "").startsWith("91")) {
+				toSendOtpPhoneNumber = "91" + user.phoneNumber.replace(/\D/g, "");
+			}
 			await instance.sendSMS(toSendOtpPhoneNumber, `${otp.otpCode}`);
 			await instance.sendOtpEmail(user.email, otp.otpCode);
 			return {

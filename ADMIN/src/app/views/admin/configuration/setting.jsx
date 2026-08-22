@@ -116,11 +116,11 @@ export default function Setting() {
             items={[
               {
                 label: 'Inside Doha',
-                value: `${config?.deliveryPricing?.insideDoha} QAR`,
+                value: `${config?.deliveryPricing?.insideDoha} INR`,
               },
               {
                 label: 'Outside Doha',
-                value: `${config?.deliveryPricing?.outsideDoha} QAR`,
+                value: `${config?.deliveryPricing?.outsideDoha} INR`,
               },
             ]}
             background="linear-gradient(135deg,rgb(63, 126, 67),rgb(24, 93, 91))"

@@ -124,7 +124,7 @@ export default async (instance: FastifyInstance) => {
 			await transaction.commit();
 			const response = orderResponse({
 				order,
-				langCode: cart.get("user").get("preferredLang") || "ar",
+					langCode: cart.get("user").get("preferredLang") || "en",
 				multiLang: false,
 			});
 

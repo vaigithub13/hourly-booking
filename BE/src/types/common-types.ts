@@ -17,7 +17,8 @@ export const LangObjectType = Type.Object({
   ar: Type.String(),
 });
 
-export const qatariPhoneNumberType = Type.String({ pattern: "^\\+974\\d{8}$" });
+export const indianPhoneNumberType = Type.String({ pattern: "^\\+91\\d{10}$" });
+export const qatariPhoneNumberType = indianPhoneNumberType;
 
 export enum OtpTarget {
   WhatsApp = "WhatsApp",

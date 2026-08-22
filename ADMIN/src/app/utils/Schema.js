@@ -41,11 +41,7 @@ export const VendorSchemas = (currentVendor = null, isVendor = false, isAdmin = 
         .matches(nameOnly, "Special characters and numbers are not allowed")
         .min(3, "Must have at least 3 characters")
         .max(30, "Full Name must be at most 30 characters"),
-      ar: Yup.string()
-        .required("الاسم مطلوب")
-        .matches(arabic, "مطلوب الحروف العربية فقط")
-        .min(3, "يجب أن تحتوي على 3 أحرف على الأقل")
-        .max(30, "يجب أن يكون الاسم الكامل 30 حرفًا على الأكثر")
+      ar: Yup.string().notRequired()
     })
   }),
 
@@ -57,18 +53,16 @@ export const VendorSchemas = (currentVendor = null, isVendor = false, isAdmin = 
         .matches(nameOnly, "Special characters and numbers are not allowed")
         .min(3, "Must have at least 3 characters")
         .max(30, "Full Name must be at most 30 characters"),
-      ar: Yup.string()
-        .required("اسم العلامة التجارية مطلوب")
-        .matches(arabic, "مطلوب الحروف العربية فقط")
-        .min(3, "يجب أن تحتوي على 3 أحرف على الأقل")
-        .max(30, "يجب أن يكون الاسم الكامل 30 حرفًا على الأكثر")
+      ar: Yup.string().notRequired()
     }),
     password: !currentVendor
       ? Yup.string().min(8, "Password must be 8 character length").required("Password is required!")
       : Yup.string().notRequired(),
     email: Yup.string().required("Email is required!").email("Invalid Email address"),
     username: Yup.string().required("Username is required"),
-    phoneNumber: Yup.string().required("Phone number is required").min(8, "Should have 8 digits")
+    phoneNumber: Yup.string()
+      .required("Phone number is required")
+      .matches(/^\d{10}$/, "Enter a 10-digit Indian mobile number")
   }),
 
   // Step 3 Schema

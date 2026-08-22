@@ -31,7 +31,7 @@ const DataCard = ({ email, phone, homePageText }) => {
           <Divider />
           <Grid item xs={12}>
             <Typography variant="subtitle1">
-              <strong>Phone:</strong> +974-{phone || 'N/A'}
+              <strong>Phone:</strong> +91-{phone || 'N/A'}
             </Typography>
           </Grid>
           <Divider />

@@ -15,10 +15,10 @@ export const runOnAppInit = async () => {
 			rank: mxBannerRank ? mxBannerRank + 1 : 1,
 			image: "https://sc04.alicdn.com/kf/Afb81d6f323a844ab99c2c58fc179b54bT/1144391/Afb81d6f323a844ab99c2c58fc179b54bT.jpg",
 			type: BannerType.Admin,
-			title: { en: "New Collection!", ar: "عبايات جديدة!" },
+			title: { en: "New Collection!", ar: "New Collection!" },
 			description: {
-				en: "Find the suitable app for you, check the latest fashion trends for women app, be elegant",
-				ar: "ابحثي عن العباءة المناسبة لك، اطلعي على أحدث صيحات الموضة للعباية النسائية، كوني أنيقة",
+				en: "Find the stay that suits you. Browse hourly rooms and book in minutes.",
+				ar: "Find the stay that suits you. Browse hourly rooms and book in minutes.",
 			},
 		});
 	}
@@ -28,10 +28,10 @@ export const runOnAppInit = async () => {
 			rank: mxBannerRank ? mxBannerRank + 1 : 1,
 			image: "https://app.com/cdn/shop/files/Gold_Minimalist_Fashion_Stylist_Service_Medium_Banner.png?v=1737048521&width=3840",
 			type: BannerType.Marketing,
-			title: { en: "Try out new app!", ar: "قم بتصفح العبايات الجديدة!" },
+			title: { en: "Try hourly stays!", ar: "Try hourly stays!" },
 			description: {
-				en: "New year, new app, best products at best prices",
-				ar: "سنة جديدة بعبايات جديدة، أفضل المنتجات بأفضل الأسعار",
+				en: "Book rooms by the hour at the best available rates.",
+				ar: "Book rooms by the hour at the best available rates.",
 			},
 		});
 	}

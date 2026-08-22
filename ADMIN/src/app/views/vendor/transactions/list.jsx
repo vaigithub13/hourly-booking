@@ -62,7 +62,7 @@ export default function Transactions() {
   const columns = [
     {
       field: 'amount',
-      headerName: 'Amount Received (QAR)',
+      headerName: 'Amount Received (INR)',
       flex: 0.2,
       minWidth: 200,
       sortable: false,

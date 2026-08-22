@@ -42,7 +42,7 @@ const steps = [
   'Personal Details',
   'Business Details',
   'Address Details',
-  'Upload CR',
+  'Upload documents',
   'Review & Confirm',
 ]
 
@@ -134,6 +134,15 @@ const CreateVendor = ({ currentVendor, isVendor = false, isAdmin = false }) => {
       data.certificate = url
     }
 
+    if (data.vendorName) {
+      data.vendorName.ar = data.vendorName.ar || data.vendorName.en
+    }
+    if (data.ownerName) {
+      data.ownerName.ar = data.ownerName.ar || data.ownerName.en
+    }
+    if (data.phoneNumber && !String(data.phoneNumber).startsWith('+')) {
+      data.phoneNumber = `+91${data.phoneNumber}`
+    }
     currentVendor && delete data.password
     !isAdmin && delete data.appPercentage
     delete data.isCheck
@@ -210,7 +219,7 @@ const CreateVendor = ({ currentVendor, isVendor = false, isAdmin = false }) => {
     <>
       <Paper elevation={3} sx={PaperSx()}>
         <Typography variant="h4" align="center" sx={{ fontWeight: 600, mb: 2 }}>
-          Welcome to My App
+          Welcome to Hourly Booking
         </Typography>
         <Typography
           variant="h6"
@@ -273,20 +282,10 @@ const CreateVendor = ({ currentVendor, isVendor = false, isAdmin = false }) => {
                   <Grid item xs={12}>
                     <RHFTextField
                       name="vendorName.en"
-                      label="Designer Name (English) *"
+                      label="Host / business name *"
                       maxLength={20}
-                      placeholder="Enter designer name in English"
+                      placeholder="Enter your name or hotel name"
                     />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <div dir="rtl">
-                      <RHFTextField
-                        name="vendorName.ar"
-                        maxLength={20}
-                        label=" اسم المصمم/ة (عربي)*"
-                        placeholder="أدخل اسم المصمم/ة باللغة العربية"
-                      />
-                    </div>
                   </Grid>
                 </Grid>
               </Grid>
@@ -298,20 +297,10 @@ const CreateVendor = ({ currentVendor, isVendor = false, isAdmin = false }) => {
               <Grid item xs={12} sm={6}>
                 <RHFTextField
                   name="ownerName.en"
-                  label="Brand Name (English) *"
+                  label="Brand name *"
                   maxLength={20}
-                  placeholder="Enter Brand name in English"
+                  placeholder="Enter brand or property name"
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <div dir="rtl">
-                  <RHFTextField
-                    name="ownerName.ar"
-                    maxLength={20}
-                    label="اسم العلامة التجارية (عربي) *"
-                    placeholder="أدخل اسم العلامة التجارية باللغة العربية"
-                  />
-                </div>
               </Grid>
               <Grid item xs={6}>
                 <RHFTextField
@@ -359,11 +348,11 @@ const CreateVendor = ({ currentVendor, isVendor = false, isAdmin = false }) => {
                   name="phoneNumber"
                   label="Business Contact *"
                   placeholder=""
-                  maxLength={8}
+                  maxLength={10}
                   InputProps={{
                     startAdornment: (
                       <Box sx={{ paddingRight: 2, fontWeight: 'bold' }}>
-                        +974
+                        +91
                       </Box>
                     ),
                   }}
@@ -426,8 +415,8 @@ const CreateVendor = ({ currentVendor, isVendor = false, isAdmin = false }) => {
               )}
               <Grid item xs={12}>
                 <Typography variant="caption" color="text.primary">
-                  Note: CR stands for Commercial Registration issued by the
-                  Ministry of Commerce and Industry (MOCI)
+                  Note: Upload your GST certificate or other business
+                  registration document (India).
                 </Typography>
                 <RHFUpload
                   name="certificate"

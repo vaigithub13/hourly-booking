@@ -16,12 +16,12 @@ export const seedDemoBookingData = async (configs: Awaited<ReturnType<typeof get
 	if (!existingHotel) {
 		const hotel = await Hotel.create({
 			vendorId: vendor.id,
-			name: "Hourly Stay Doha",
+			name: "Hourly Stay Mumbai",
 			description: "Demo hotel for the Flutter hourly-booking app. 3-hour minimum stay.",
-			address: "West Bay, Corniche",
-			city: "Doha",
-			latitude: 25.326,
-			longitude: 51.531,
+			address: "Bandra West, Linking Road",
+			city: "Mumbai",
+			latitude: 19.06,
+			longitude: 72.83,
 			images: ["https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200"],
 			amenities: ["wifi", "parking", "ac", "pool"],
 			openTime: "08:00",
@@ -62,7 +62,7 @@ export const seedDemoBookingData = async (configs: Awaited<ReturnType<typeof get
 		]);
 	}
 
-	const demoPhone = "+97450000000";
+	const demoPhone = "+919876543210";
 	const existingUser = await User.findOne({ where: { phoneNumber: demoPhone } });
 	if (!existingUser) {
 		await User.create({

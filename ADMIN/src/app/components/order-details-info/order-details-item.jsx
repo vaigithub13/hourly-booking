@@ -126,7 +126,7 @@ export default function OrderDetailsItems({
                 variant="caption"
                 sx={{ ml: 0.5, fontSize: 10 }}
               >
-                QAR
+                INR
               </Typography>
             </>
           )}

@@ -259,7 +259,7 @@ const DashboardStats = () => {
                           color: 'black',
                         }}
                       >
-                        QAR
+                        INR
                       </Box>
                     )}
                 </Typography>

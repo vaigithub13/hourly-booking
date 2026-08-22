@@ -110,7 +110,7 @@ export default function Transactions() {
     },
     {
       field: "amount",
-      headerName: "Total (QAR)",
+      headerName: "Total (INR)",
       flex: 0.2,
       minWidth: 200,
       sortable: false,

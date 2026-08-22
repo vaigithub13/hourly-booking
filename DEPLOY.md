@@ -112,7 +112,7 @@ Admin is a Create React App. The API URL is baked in at **build** time.
 
 1. Paste the three URLs into `SHARE.md` (API, `/docs`, admin).
 2. Send them `SHARE.md` (or this GitHub file once pushed).
-3. Tell them: first request after idle may be slow; demo OTP is `3489`; demo phone is `+97450000000`.
+3. Tell them: first request after idle may be slow; demo OTP is `3489`; demo phone is `+919876543210`.
 
 ---
 

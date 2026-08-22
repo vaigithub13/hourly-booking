@@ -88,7 +88,7 @@ export default function DeliveryTable() {
               Zone
             </TableCell>
             <TableCell width="50%" align="center" sx={fontStyle}>
-              Price (QAR)
+              Price (INR)
             </TableCell>
             <TableCell width="20%" align="center" sx={fontStyle}>
               Action
