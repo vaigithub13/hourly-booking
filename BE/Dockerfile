@@ -1,43 +1,32 @@
-# ---------- build stage ----------
-# Use this file only when the Docker context is the BE/ folder:
-#   cd BE && docker build -t hourly-api .
-# On Render, use the repo-root Dockerfile (context = repository root).
+# Render: Dockerfile path can be BE/Dockerfile OR ./Dockerfile.
+# Build context MUST be the GitHub repo root (leave "Docker Build Context" empty).
+# Local: from repo root → docker build -f BE/Dockerfile .
+
 FROM node:20-alpine AS build
 
-# enable Yarn Classic (v1) via Corepack
 RUN corepack enable && corepack prepare yarn@1.22.22 --activate
 
-# app dir
 WORKDIR /home/node/app
 
-# deps first for better caching
-COPY tsconfig.json package.json yarn.lock esbuild.config.ts ./
+COPY BE/tsconfig.json BE/package.json BE/yarn.lock BE/esbuild.config.ts ./
 RUN yarn install --frozen-lockfile
 
-# source
-COPY src ./src
+COPY BE/src ./src
 
-# build
 RUN yarn build
 
-
-# ---------- runtime stage ----------
 FROM node:20-alpine
 
-# enable Yarn Classic for prod install
 RUN corepack enable && corepack prepare yarn@1.22.22 --activate
 
-# init
 RUN apk add --no-cache dumb-init
 
 ENV NODE_ENV=production
 WORKDIR /home/node/app
 
-# prod deps only
-COPY package.json yarn.lock ./
+COPY BE/package.json BE/yarn.lock ./
 RUN yarn install --frozen-lockfile --production && yarn cache clean --force
 
-# app files
 COPY --from=build /home/node/app/dist ./dist
 
 EXPOSE 8080
