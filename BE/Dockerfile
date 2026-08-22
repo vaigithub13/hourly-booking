@@ -1,4 +1,7 @@
 # ---------- build stage ----------
+# Use this file only when the Docker context is the BE/ folder:
+#   cd BE && docker build -t hourly-api .
+# On Render, use the repo-root Dockerfile (context = repository root).
 FROM node:20-alpine AS build
 
 # enable Yarn Classic (v1) via Corepack
@@ -39,4 +42,4 @@ COPY --from=build /home/node/app/dist ./dist
 
 EXPOSE 8080
 USER node
-CMD ["dumb-init","node","dist/index.js","--max-old-space-size=2450"]
+CMD ["dumb-init","node","dist/index.js","--max-old-space-size=512"]

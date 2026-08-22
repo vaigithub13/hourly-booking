@@ -49,8 +49,8 @@ If the URI contains `channel_binding=require`, you can leave it; if Sequelize fa
 | Name | `hourly-booking-api` |
 | Region | same as Neon if possible |
 | Runtime | **Docker** |
-| Dockerfile path | `BE/Dockerfile` |
-| Docker build context directory | `BE` |
+| Dockerfile path | `Dockerfile` (repo root) |
+| Docker build context directory | `.` or leave **empty** (must be the **repository root**, not `BE`) |
 | Instance type | **Free** |
 | Health check path | `/` |
 

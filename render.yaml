@@ -7,8 +7,8 @@ services:
     name: hourly-booking-api
     runtime: docker
     plan: free
-    dockerfilePath: ./BE/Dockerfile
-    dockerContext: ./BE
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     healthCheckPath: /
     envVars:
       - key: NODE_ENV
