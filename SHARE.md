@@ -1,20 +1,22 @@
-# Share with Flutter (free hosted API)
+# Share with Flutter (live API)
 
-Fill the **Live URLs** section after you finish [DEPLOY.md](./DEPLOY.md), then send this file to the Flutter developer.
+Send this file to the Flutter developer.
 
-## Live URLs (fill these in)
+## Live URLs
 
 | What | URL |
 |---|---|
-| API base | `https://________________.onrender.com` |
-| REST prefix | `https://________________.onrender.com/v1` |
-| Swagger (try endpoints) | `https://________________.onrender.com/docs` |
-| Admin panel | `https://________________.onrender.com` |
+| API base | https://hourly-booking-api.onrender.com |
+| REST prefix | https://hourly-booking-api.onrender.com/v1 |
+| Swagger | https://hourly-booking-api.onrender.com/docs |
+| Health | https://hourly-booking-api.onrender.com/ |
 | GitHub | https://github.com/vaigithub13/hourly-booking |
 
-Health check: `GET /` → `{ "message": "App is running successfully!" }`
+Admin panel is not deployed yet. Flutter should use **only the API**.
 
-**Cold start:** the free API sleeps after ~15 minutes idle. The first request can take 30–60 seconds. Retry once if you get a timeout.
+**Response envelope:** every JSON body looks like `{ "success": true, "data": ..., "statusCode": 200, "message": "..." }`. Read the payload from **`data`**, not the root.
+
+**Cold start:** free Render sleeps after ~15 minutes idle. First request can take 30–60 seconds. Retry once on timeout.
 
 ---
 
@@ -74,35 +76,9 @@ Base: `{API}/v1`
 | GET | `/bookings/mine` | yes | Current user bookings |
 | PUT | `/bookings/:bookingId/cancel` | yes | Cancel. Body: `{ "reason": "..." }` |
 
-### List hotels response (shape)
+### List hotels (`GET /v1/hotels`)
 
-```json
-{
-  "count": 1,
-  "rows": [
-    {
-      "id": 1,
-      "name": "Hourly Stay Doha",
-      "city": "Doha",
-      "latitude": "25.326",
-      "longitude": "51.531",
-      "minBookingHours": 3,
-      "openTime": "08:00",
-      "closeTime": "23:00",
-      "amenities": ["wifi", "parking", "ac", "pool"],
-      "roomTypes": [
-        {
-          "id": 1,
-          "name": "Deluxe King",
-          "maxOccupancy": 2,
-          "basePriceForMinHours": 150,
-          "pricePerAdditionalHour": 35
-        }
-      ]
-    }
-  ]
-}
-```
+Hotel list lives at `data.rows`. Demo hotel id is **1**. Room types: Deluxe King **id 1** (`150` + `35`/hour), Standard Twin **id 2** (`110` + `25`/hour).
 
 ### Create booking
 
