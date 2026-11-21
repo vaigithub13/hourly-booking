@@ -261,9 +261,13 @@ const RazorpayService = (instance: FastifyInstance) => {
 					where: { bookingId: booking.id, status: BookingPaymentStatus.PAID },
 				});
 				if (paid) continue; // webhook already confirmed it; leave for markPaid
-				booking.status = BookingStatus.CANCELLED;
-				booking.cancellationReason = "Payment not completed in time";
-				await booking.save();
+				// Conditional update: if /verify or the webhook confirms the booking between the read above
+				// and this write, don't overwrite CONFIRMED with CANCELLED.
+				const [released] = await Booking.update(
+					{ status: BookingStatus.CANCELLED, cancellationReason: "Payment not completed in time" },
+					{ where: { id: booking.id, status: BookingStatus.PENDING_PAYMENT } }
+				);
+				if (!released) continue;
 				await BookingPayment.update(
 					{ status: BookingPaymentStatus.EXPIRED },
 					{ where: { bookingId: booking.id, status: { [Op.in]: [BookingPaymentStatus.CREATED, BookingPaymentStatus.FAILED] } } }
