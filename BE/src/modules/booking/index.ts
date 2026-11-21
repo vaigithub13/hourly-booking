@@ -1,6 +1,7 @@
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { FastifyInstance } from "fastify/types/instance";
 import BookingService from "./booking.service";
+import RazorpayService from "../razorpay/razorpay.service";
 import * as schema from "./booking.schema";
 import { withTransaction } from "src/utils/sequelize";
 import { FastifyRequestTypebox } from "../../types/FastifyTypebox";
@@ -62,7 +63,16 @@ export default async (fastify: FastifyInstance) => {
 		},
 		async (request: FastifyRequestTypebox<typeof schema.cancelBooking>) => {
 			const userId = (request.user as any).id;
-			return bookingService.cancelBooking(request.params.bookingId, userId, request.body.reason);
+			const booking = await bookingService.cancelBooking(request.params.bookingId, userId, request.body.reason);
+			// Refund per policy (full refund if cancelled early enough); never blocks the cancellation itself.
+			let refund: Record<string, unknown> = { refunded: false };
+			try {
+				refund = await RazorpayService(fastify).refundOnCancellation(booking);
+			} catch (err: any) {
+				request.log.error({ bookingId: booking.id, err: err?.message }, "Refund failed; needs manual retry");
+				refund = { refunded: false, reason: "refund could not be started, support will follow up" };
+			}
+			return { ...(booking.toJSON() as Record<string, unknown>), refund };
 		}
 	);
 };

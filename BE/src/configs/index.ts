@@ -78,6 +78,14 @@ const getConfigs = async () => {
 			SKIPCASH_CLIENT_ID: Type.String({ default: "" }),
 			SKIPCASH_WEBHOOK_KEY: Type.String({ default: "" }),
 			SKIPCASH_BASE_URL: Type.String({ default: "" }),
+
+			//* Razorpay (test keys start with rzp_test_, live keys with rzp_live_)
+			RAZORPAY_KEY_ID: Type.String({ default: "" }),
+			RAZORPAY_KEY_SECRET: Type.String({ default: "" }),
+			RAZORPAY_WEBHOOK_SECRET: Type.String({ default: "" }),
+			RAZORPAY_MERCHANT_NAME: Type.String({ default: "Hourlyzo" }),
+			PAYMENT_WINDOW_MINUTES: Type.Number({ default: 15 }),
+			FULL_REFUND_WINDOW_HOURS: Type.Number({ default: 48 }),
 		}),
 	});
 
@@ -167,6 +175,14 @@ const getConfigs = async () => {
 			clientId: `${env["SKIPCASH_CLIENT_ID"]}`,
 			webhookKey: `${env["SKIPCASH_WEBHOOK_KEY"]}`,
 			baseUrl: `${env["SKIPCASH_BASE_URL"]}`,
+		},
+		razorpay: {
+			keyId: `${env["RAZORPAY_KEY_ID"]}`,
+			keySecret: `${env["RAZORPAY_KEY_SECRET"]}`,
+			webhookSecret: `${env["RAZORPAY_WEBHOOK_SECRET"]}`,
+			merchantName: `${env["RAZORPAY_MERCHANT_NAME"]}`,
+			paymentWindowMinutes: +`${env["PAYMENT_WINDOW_MINUTES"]}`,
+			fullRefundWindowHours: +`${env["FULL_REFUND_WINDOW_HOURS"]}`,
 		},
 		swagger: {
 			routePrefix: "/docs",

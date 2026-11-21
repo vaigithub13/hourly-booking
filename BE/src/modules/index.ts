@@ -29,11 +29,13 @@ import ec2_start from "./ec2-start";
 import hotel from "./hotel";
 import room from "./room";
 import booking from "./booking";
+import razorpay from "./razorpay";
 
 export default async (instance: FastifyInstance) => {
 	instance.register(hotel, { prefix: "hotels" });
 	instance.register(room, { prefix: "rooms" });
 	instance.register(booking, { prefix: "bookings" });
+	instance.register(razorpay, { prefix: "payments/razorpay" });
 	instance.register(admin, { prefix: "admin" });
 	instance.register(configuration, { prefix: "configurations" });
 	instance.register(user, { prefix: "users" });
