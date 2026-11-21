@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import cron from "node-cron";
 import { cronJobs } from "./cron-jobs";
-import RazorpayService from "src/modules/razorpay/razorpay.service";
+import RazorpayService from "../modules/razorpay/razorpay.service";
 import { getFastifyInstance } from "src/fastifyInstance";
 import ConfigurationService from "src/modules/configuration/configuration.service";
 
