@@ -30,6 +30,7 @@ import { Log } from "../../modules/logs/logs.model";
 import { Hotel } from "src/modules/hotel/hotel.model";
 import { RoomType, Room } from "src/modules/room/room.model";
 import { Booking } from "src/modules/booking/booking.model";
+import { BookingPayment } from "src/modules/razorpay/razorpay.model";
 
 const sequelizePlugin = async (instance: FastifyInstance) => {
 	const namespace = cls.createNamespace("transaction-cls");
@@ -57,6 +58,7 @@ const sequelizePlugin = async (instance: FastifyInstance) => {
 		RoomType,
 		Room,
 		Booking,
+		BookingPayment,
 		Admin,
 		User,
 		Banner,
